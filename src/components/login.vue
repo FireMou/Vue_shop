@@ -21,7 +21,7 @@
 
         <!-- 登录和重置按钮的盒子 -->
         <div class="btn_container">
-          <el-button type="primary">登录</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </div>
 
@@ -52,6 +52,21 @@ export default {
   methods: {
     resetLoginForm () {
       this.$refs.loginFormRef.resetFields()
+    },
+    login () {
+      this.$refs.loginFormRef.validate(async validate => {
+        if (!validate) return
+        const { data: res } = await this.$http.post('login', this.loginForm)
+        if (res.meta.status !== 200) { // 请求失败
+          return this.$message.error('登录失败')
+        }
+        // console.log(res)
+        // 存储token
+        window.sessionStorage.setItem('token', res.data.token)
+
+        // 跳转到home页面
+        this.$router.push('/home')
+      })
     }
   }
 }

@@ -7,6 +7,12 @@ import './assets/css/global.css'
 // 引入图标样式表
 import './assets/fonts/iconfont.css'
 
+import axios from 'axios'
+
+axios.defaults.baseURL = 'https://yapi.baidu.com/mock/3750/vue/shop/'
+
+Vue.prototype.$http = axios
+
 Vue.config.productionTip = false
 
 new Vue({
